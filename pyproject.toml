@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "darkcoverage"
+version = "0.1.0"
+description = "Image threshold analysis tool for measuring coverage"
+readme = "README.md"
+authors = [
+    {name = "Tilen", email = "tilen.zel@gmail.com"}
+]
+maintainers = [
+    {name = "Tilen", email = "tilen.zel@gmail.com"}
+]
+license = {text = "MIT"}
+keywords = ["dark", "coverage", "image", "analysis"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: End Users/Desktop",
+    "Topic :: Multimedia :: Graphics :: Editors",
+]
+dependencies = [
+    "PySide6>=6.4.0",
+    "Pillow>=9.3.0",
+    "numpy>=1.22.0",
+]
+requires-python = ">=3.8"
+
+[project.urls]
+"Homepage" = "https://github.com/TZ387/darkcoverage"
+"Bug Tracker" = "https://github.com/TZ387/darkcoverage/issues"
+
+[project.scripts]
+darkcoverage = "darkcoverage.main:main"
+
+[tool.setuptools]
+packages = ["darkcoverage", "darkcoverage.widgets"]
