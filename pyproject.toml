@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "darkcoverage"
-version = "0.1.0"
+version = "0.1.1"
 description = "Image threshold analysis tool for measuring coverage"
 readme = "README.md"
 authors = [

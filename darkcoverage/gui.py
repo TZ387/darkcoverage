@@ -133,7 +133,15 @@ class ImageThresholdApp(QWidget):
                     self.current_image.width * 3,  # bytes per line 
                     QImage.Format_RGB888)
         pixmap = QPixmap.fromImage(qimage)
-        self.image_label.setPixmap(pixmap.scaled(400, 400, Qt.KeepAspectRatio))
+        
+        # Scale the pixmap while maintaining aspect ratio
+        scaled_pixmap = pixmap.scaled(
+            400, 400,  # max size
+            Qt.KeepAspectRatio,  # maintain aspect ratio
+            Qt.SmoothTransformation  # high-quality scaling
+        )
+        
+        self.image_label.setPixmap(scaled_pixmap)
         n, m = self.sliders_window.get_grid_size()
         self.image_label.setGridSize(n, m)
     

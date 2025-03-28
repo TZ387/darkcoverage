@@ -16,13 +16,13 @@ class ImageLabel(QLabel):
         super().paintEvent(event)
         if self.pixmap():
             painter = QPainter(self)
-            pen = QPen(Qt.green, 2, Qt.DashLine)
+            pen = QPen(Qt.green)
             painter.setPen(pen)
             
             # Get the actual displayed image size
             pixmap_rect = self.pixmap().rect()
-            scaled_rect = self.pixmap().scaled(self.size(), Qt.KeepAspectRatio).rect()
-            
+            scaled_rect = pixmap_rect
+
             # Calculate the offset to center the image
             x_offset = (self.width() - scaled_rect.width()) // 2
             y_offset = (self.height() - scaled_rect.height()) // 2
@@ -52,3 +52,5 @@ class ImageLabel(QLabel):
                 # Scale the position to match the displayed size
                 scaled_y = y_offset + (y_pos * scaled_rect.height() // height)
                 painter.drawLine(x_offset, scaled_y, x_offset + scaled_rect.width(), scaled_y)
+
+
