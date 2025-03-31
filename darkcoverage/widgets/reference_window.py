@@ -8,6 +8,10 @@ class ReferenceWindow(QWidget):
         super().__init__(parent, Qt.Window)  # Use Qt.Window flag to create an independent window
         self.setWindowTitle("Original Image Reference")
         self.original_pixmap = None  # Store the original pixmap
+
+        # Set a default size for the reference window
+        self.resize(400, 400)  
+
         self.init_ui()
        
     def init_ui(self):

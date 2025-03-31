@@ -17,6 +17,7 @@ class ImageLabel(QLabel):
         if self.pixmap():
             painter = QPainter(self)
             pen = QPen(Qt.green)
+            pen.setWidth(2)  # Increase pen thickness
             painter.setPen(pen)
             
             # Get the actual displayed image size
