@@ -146,30 +146,42 @@ class ImageThresholdApp(QWidget):
 
     def scale_image(self):
         if hasattr(self, 'current_image') and self.current_image:
-            # Create QImage from the current PIL image
-            if self.current_image.mode != 'RGB':
-                img = self.current_image.convert('RGB')
-            else:
-                img = self.current_image
+            # Only recreate the QImage if necessary
+            if not hasattr(self, 'qimage') or self._last_image_id != id(self.current_image):
+                # Convert image format if needed
+                if self.current_image.mode != 'RGB':
+                    img = self.current_image.convert('RGB')
+                else:
+                    img = self.current_image
+                    
+                # Store image id to detect changes
+                self._last_image_id = id(self.current_image)
                 
-            qimage = QImage(img.tobytes(), 
-                        img.width, 
-                        img.height, 
-                        img.width * 3,  # bytes per line 
-                        QImage.Format_RGB888)
+                # Create QImage directly from PIL image data
+                self.qimage = QImage(img.tobytes(), 
+                            img.width, 
+                            img.height, 
+                            img.width * 3,  # bytes per line 
+                            QImage.Format_RGB888)
+                
+                # Cache the original pixmap
+                self.original_pixmap = QPixmap.fromImage(self.qimage)
             
-            self.original_pixmap = QPixmap.fromImage(qimage)
-            
-            # Scale the pixmap to fit the label size, keeping aspect ratio
+            # Scale the pixmap - Use FastTransformation for speed
+            # or SmoothTransformation for quality (choose based on your needs)
             scaled_pixmap = self.original_pixmap.scaled(
                 self.image_label.size(), 
                 Qt.KeepAspectRatio, 
-                Qt.SmoothTransformation
+                Qt.FastTransformation  # Faster than SmoothTransformation
             )
             
             self.image_label.setPixmap(scaled_pixmap)
-            n, m = self.sliders_window.get_grid_size()
-            self.image_label.setGridSize(n, m)
+            
+            # Avoid unnecessary grid size updates
+            if not hasattr(self, '_last_grid_size'):
+                n, m = self.sliders_window.get_grid_size()
+                self._last_grid_size = (n, m)
+                self.image_label.setGridSize(n, m)
     
     def load_image(self):
         file_name, _ = QFileDialog.getOpenFileName(self, "Open Image", "", "Images (*.png *.jpg *.jpeg)")

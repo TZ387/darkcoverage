@@ -45,10 +45,10 @@ class ReferenceWindow(QWidget):
     
     def scale_image(self):
         if self.original_pixmap:
-            # Scale the pixmap to fit the label size, keeping aspect ratio
+            # Scale the pixmap using FastTransformation for better performance
             scaled_pixmap = self.original_pixmap.scaled(
                 self.image_label.size(), 
                 Qt.KeepAspectRatio, 
-                Qt.SmoothTransformation
+                Qt.FastTransformation  # Much faster than SmoothTransformation
             )
             self.image_label.setPixmap(scaled_pixmap)
