@@ -175,13 +175,7 @@ class ImageThresholdApp(QWidget):
                 Qt.FastTransformation  # Faster than SmoothTransformation
             )
             
-            self.image_label.setPixmap(scaled_pixmap)
-            
-            # Avoid unnecessary grid size updates
-            if not hasattr(self, '_last_grid_size'):
-                n, m = self.sliders_window.get_grid_size()
-                self._last_grid_size = (n, m)
-                self.image_label.setGridSize(n, m)
+            self.image_label.setPixmap(scaled_pixmap)            
     
     def load_image(self):
         file_name, _ = QFileDialog.getOpenFileName(self, "Open Image", "", "Images (*.png *.jpg *.jpeg)")
