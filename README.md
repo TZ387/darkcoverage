@@ -4,7 +4,7 @@ DarkCoverage is an image analysis tool that helps you measure and visualize the 
 
 Its usage is simple: Just run the program, load the image, and then use the sliders to specify appropriate threshold for each area.
 
-![DarkCoverage Screenshot](Demonstration.png)
+![DarkCoverage Screenshot](https://github.com/TZ387/darkcoverage/raw/main/Demonstration.png)
 
 ## Features
 
