@@ -1,3 +1,7 @@
+## Note
+
+The project is currently undergoing transition from pip-based build to uv-based build. However, the installation with "pip install darkcoverage" should still work, as I have not yet made any changes on PyPI Index.
+
 # DarkCoverage
 
 DarkCoverage is an image analysis tool that helps you measure and visualize the coverage of dark or light areas in images using customizable thresholds and a grid-based approach.
@@ -67,17 +71,20 @@ In case something goes wrong, you can use reset image option.
 
 ```
 DarkCoverage/
-├── darkcoverage/
-│   ├── __init__.py
-│   ├── main.py
-│   ├── gui.py
-│   ├── image_processing.py
-│   └── widgets/
+├── src/
+│   └── darkcoverage/
 │       ├── __init__.py
-│       ├── image_label.py
-│       ├── reference_window.py
-│       └── sliders_window.py
+│       ├── main.py
+│       ├── gui.py
+│       ├── image_processing.py
+│       └── widgets/
+│           ├── __init__.py
+│           ├── image_label.py
+│           ├── reference_window.py
+│           └── sliders_window.py
 ├── .gitignore
+├── uv.lock
+├── .python-version
 ├── LICENSE
 ├── pyproject.toml
 ├── README.md
