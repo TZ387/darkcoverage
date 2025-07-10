@@ -19,74 +19,41 @@ Its usage is simple: Just run the program, load the image, and then use the slid
 - Compare with original image reference
 - Save processed images
 
-## Installation
+## Installation and Usage
 
 ### With pip
 
-Install from PyPI:
-
+**Installation:**
 ```bash
 pip install darkcoverage
 ```
 
+**Usage:**
+```bash
+darkcoverage
+```
+or if Python is not included to path
+```bash
+darkcoverage.main
+```
+
 ### With uv
+
+**Installation:**
 
 First, install uv if you haven't already (see uv docs for more information)
 
 Then install DarkCoverage:
-
 ```bash
 uv add darkcoverage
 ```
 
 Or install globally with uvx:
-
 ```bash
 uvx darkcoverage
 ```
 
-### From Source
-
-#### With pip
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/TZ387/darkcoverage.git
-   cd darkcoverage
-   ```
-
-2. Install the package:
-   ```bash
-   pip install -e .
-   ```
-
-#### With uv
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/TZ387/darkcoverage.git
-   cd darkcoverage
-   ```
-
-2. Install dependencies and set up the project:
-   ```bash
-   uv sync
-   ```
-
-## Usage
-
-### If installed with pip
-
-Run the application:
-
-```bash
-darkcoverage
-```
-
-### If installed with uv
-
-Run the application:
-
+**Usage:**
 ```bash
 # If installed with uv add
 uv run darkcoverage
@@ -99,17 +66,43 @@ uvx darkcoverage
 
 #### With pip
 
+**Installation:**
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/TZ387/darkcoverage.git
+   cd darkcoverage
+   ```
+
+2. Install the package:
+   ```bash
+   pip install -e .
+   ```
+
+**Usage:**
 ```bash
 python -m darkcoverage.main
 ```
 
 #### With uv
 
+**Installation:**
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/TZ387/darkcoverage.git
+   cd darkcoverage
+   ```
+
+2. Install dependencies and set up the project:
+   ```bash
+   uv sync
+   ```
+
+**Usage:**
 ```bash
 uv run python -m darkcoverage.main
 ```
 
-### Basic Workflow
+## Basic Workflow
 
 1. Click "Load Image" to open an image file (such as Example.jpg in the main folder).
 2. Adjust the number of rows and columns using the row and column inputs in the sliders window
