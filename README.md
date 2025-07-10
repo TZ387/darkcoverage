@@ -1,6 +1,6 @@
 ## Note
 
-The project is currently undergoing transition from pip-based build to uv-based build. However, the installation with "pip install darkcoverage" should still work, as I have not yet made any changes on PyPI Index.
+The project is currently undergoing transition from pip-based build to uv-based build. Therefore, there may be problems with some installation instructions.
 
 # DarkCoverage
 
@@ -23,37 +23,90 @@ Its usage is simple: Just run the program, load the image, and then use the slid
 
 ### With pip
 
-```
+Install from PyPI:
+
+```bash
 pip install darkcoverage
+```
+
+### With uv
+
+First, install uv if you haven't already (see uv docs for more information)
+
+Then install DarkCoverage:
+
+```bash
+uv add darkcoverage
+```
+
+Or install globally with uvx:
+
+```bash
+uvx darkcoverage
 ```
 
 ### From Source
 
+#### With pip
+
 1. Clone the repository:
-   ```
+   ```bash
    git clone https://github.com/TZ387/darkcoverage.git
    cd darkcoverage
    ```
 
 2. Install the package:
-   ```
+   ```bash
    pip install -e .
    ```
 
+#### With uv
 
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/TZ387/darkcoverage.git
+   cd darkcoverage
+   ```
+
+2. Install dependencies and set up the project:
+   ```bash
+   uv sync
+   ```
 
 ## Usage
 
+### If installed with pip
+
 Run the application:
 
-```
+```bash
 darkcoverage
 ```
 
-Or from the source code:
+### If installed with uv
 
+Run the application:
+
+```bash
+# If installed with uv add
+uv run darkcoverage
+
+# If installed with uvx
+uvx darkcoverage
 ```
-py -m darkcoverage.main
+
+### From Source
+
+#### With pip
+
+```bash
+python -m darkcoverage.main
+```
+
+#### With uv
+
+```bash
+uv run python -m darkcoverage.main
 ```
 
 ### Basic Workflow
@@ -84,7 +137,6 @@ DarkCoverage/
 │           └── sliders_window.py
 ├── .gitignore
 ├── uv.lock
-├── .python-version
 ├── LICENSE
 ├── pyproject.toml
 ├── README.md
@@ -102,4 +154,3 @@ DarkCoverage/
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
-

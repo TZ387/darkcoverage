@@ -20,19 +20,23 @@ maintainers = [
     { name = "Tilen", email = "tilen.zel@gmail.com" }
 ]
 license = { text = "MIT" }
-keywords = ["dark", "coverage", "image", "analysis"]
+keywords = ["dark", "coverage", "image", "analysis", "threshold", "gui", "pyside6"]
 classifiers = [
-    "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
-    "Operating System :: OS Independent",
     "Development Status :: 3 - Alpha",
     "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
     "Topic :: Multimedia :: Graphics :: Editors",
+    "Topic :: Scientific/Engineering :: Image Processing",
+    "Topic :: Scientific/Engineering :: Visualization",
 ]
 
 [project.urls]
 "Homepage" = "https://github.com/TZ387/darkcoverage"
+"Repository" = "https://github.com/TZ387/darkcoverage"
 "Bug Tracker" = "https://github.com/TZ387/darkcoverage/issues"
+"Documentation" = "https://github.com/TZ387/darkcoverage#readme"
 
 [project.scripts]
 darkcoverage = "darkcoverage.main:main"
