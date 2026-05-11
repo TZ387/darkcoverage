@@ -1,7 +1,3 @@
-## Note
-
-The project is currently undergoing transition from pip-based build to uv-based build. Therefore, there may be problems with some installation instructions.
-
 # DarkCoverage
 
 DarkCoverage is an image analysis tool that helps you measure and visualize the coverage of dark or light areas in images using customizable thresholds and a grid-based approach.
