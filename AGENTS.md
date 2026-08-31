@@ -18,20 +18,29 @@ Qt widgets, plus a pure image-processing function.
   the codebase that's easily unit-testable in isolation.
 - `src/darkcoverage/widgets/` — `ImageLabel` (custom `QLabel` that paints
   the threshold grid overlay), `SlidersWindow`, `ReferenceWindow`.
+- `tests/` — unit tests for `image_processing.py` (pytest, no Qt
+  dependency). Nothing under `gui.py` or `widgets/` is covered by
+  automated tests yet — see "Testing GUI changes without a display"
+  below for how to verify those manually.
 
 ## Environment / commands
 
 This project uses `uv`.
 
-- Install deps: `uv sync`
+- Install deps: `uv sync` (this also installs the `dev` dependency
+  group, which currently just holds `pytest`)
 - Run the app: `uv run python -m darkcoverage.main`
+- Run tests: `uv run pytest`
 - Lint/format: `uv run ruff check .` / `uv run ruff format .`
   (ruff is available but not currently pinned as a project dependency —
   don't assume a specific version is guaranteed across machines)
 
-There is currently **no test suite** (`pytest` is not installed and no
-tests exist). If you add tests, `process_image` in `image_processing.py`
-is the natural starting point since it has no GUI dependency.
+Tests run automatically on every push/PR via
+`.github/workflows/tests.yml` (GitHub Actions, `uv sync` + `uv run
+pytest` on `ubuntu-latest`). Keep new pure-logic code (i.e. anything
+that doesn't need Qt) covered by tests in `tests/` so CI actually
+catches regressions — `process_image` in `image_processing.py` is the
+existing example to follow.
 
 ## Testing GUI changes without a display
 

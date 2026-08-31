@@ -52,3 +52,8 @@ include = [
     "/Demonstration.png",
     "/Example.jpg",
 ]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.5",
+]
