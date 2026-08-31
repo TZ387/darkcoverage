@@ -23,11 +23,10 @@ class ImageLabel(QLabel):
 
             # Get the actual displayed image size
             pixmap_rect = self.pixmap().rect()
-            scaled_rect = pixmap_rect
 
             # Calculate the offset to center the image
-            x_offset = (self.width() - scaled_rect.width()) // 2
-            y_offset = (self.height() - scaled_rect.height()) // 2
+            x_offset = (self.width() - pixmap_rect.width()) // 2
+            y_offset = (self.height() - pixmap_rect.height()) // 2
 
             width, height = pixmap_rect.width(), pixmap_rect.height()
 
@@ -42,10 +41,9 @@ class ImageLabel(QLabel):
             for i in range(1, self.grid_size[1]):
                 # Add extra pixel for columns that get the remainder
                 x_pos += base_cell_w + (1 if i <= rem_w else 0)
-                # Scale the position to match the displayed size
-                scaled_x = x_offset + (x_pos * scaled_rect.width() // width)
+                scaled_x = x_offset + x_pos
                 painter.drawLine(
-                    scaled_x, y_offset, scaled_x, y_offset + scaled_rect.height()
+                    scaled_x, y_offset, scaled_x, y_offset + pixmap_rect.height()
                 )
 
             # Draw horizontal lines
@@ -53,8 +51,7 @@ class ImageLabel(QLabel):
             for i in range(1, self.grid_size[0]):
                 # Add extra pixel for rows that get the remainder
                 y_pos += base_cell_h + (1 if i <= rem_h else 0)
-                # Scale the position to match the displayed size
-                scaled_y = y_offset + (y_pos * scaled_rect.height() // height)
+                scaled_y = y_offset + y_pos
                 painter.drawLine(
-                    x_offset, scaled_y, x_offset + scaled_rect.width(), scaled_y
+                    x_offset, scaled_y, x_offset + pixmap_rect.width(), scaled_y
                 )
