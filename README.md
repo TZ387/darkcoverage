@@ -1,5 +1,8 @@
 # DarkCoverage
 
+[![Tests](https://github.com/TZ387/darkcoverage/actions/workflows/tests.yml/badge.svg)](https://github.com/TZ387/darkcoverage/actions/workflows/tests.yml)
+[![PyPI version](https://img.shields.io/pypi/v/darkcoverage.svg)](https://pypi.org/project/darkcoverage/)
+
 DarkCoverage is an image analysis tool that helps you measure and visualize the coverage of dark or light areas in images using customizable thresholds and a grid-based approach.
 
 Its usage is simple: Just run the program, load the image, and then use the sliders to specify appropriate threshold for each area.
@@ -28,9 +31,9 @@ pip install darkcoverage
 ```bash
 darkcoverage
 ```
-or if Python is not included to path
+or if the `darkcoverage` script isn't on your PATH
 ```bash
-darkcoverage.main
+python -m darkcoverage.main
 ```
 
 ### With uv
@@ -98,6 +101,11 @@ python -m darkcoverage.main
 uv run python -m darkcoverage.main
 ```
 
+**Running tests:**
+```bash
+uv run pytest
+```
+
 ## Basic Workflow
 
 1. Click "Load Image" to open an image file (such as Example.jpg in the main folder).
@@ -113,6 +121,9 @@ In case something goes wrong, you can use reset image option.
 
 ```
 DarkCoverage/
+├── .github/
+│   └── workflows/
+│       └── tests.yml
 ├── src/
 │   └── darkcoverage/
 │       ├── __init__.py
@@ -124,7 +135,11 @@ DarkCoverage/
 │           ├── image_label.py
 │           ├── reference_window.py
 │           └── sliders_window.py
+├── tests/
+│   └── test_image_processing.py
 ├── .gitignore
+├── AGENTS.md
+├── CLAUDE.md -> AGENTS.md
 ├── uv.lock
 ├── LICENSE
 ├── pyproject.toml
