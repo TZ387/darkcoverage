@@ -21,7 +21,6 @@ class ImageThresholdApp(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("DarkCoverage - Image Threshold Adjustment")
-        self.threshold_values = []  # Initialize threshold_values
         self.original_pixmap = None  # Store the original pixmap
 
         # Set a default size for the main window
