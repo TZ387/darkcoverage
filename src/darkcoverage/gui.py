@@ -201,7 +201,7 @@ class ImageThresholdApp(QWidget):
             self.current_image = self.original_image.copy()  # Working copy
 
             # Update the image display
-            self.update_image_label()
+            self.scale_image()
 
             # Update reference window with original color image
             grid_size = self.sliders_window.get_grid_size()
@@ -215,14 +215,10 @@ class ImageThresholdApp(QWidget):
             # Process image immediately after loading
             self.process_image()
 
-    def update_image_label(self):
-        # We'll just use scale_image now, since it will handle everything
-        self.scale_image()
-
     def reset_image(self):
         if hasattr(self, "original_image"):
             self.current_image = self.original_image.copy()
-            self.update_image_label()
+            self.scale_image()
 
     def process_image(self):
         if not hasattr(self, "original_image"):
@@ -239,7 +235,7 @@ class ImageThresholdApp(QWidget):
         self.total_result_label.setText(f"Total Result: {total_result:.1f}%")
 
         self.current_image = processed_img
-        self.update_image_label()
+        self.scale_image()
         self.sliders_window.update_dark_ratios(colored_ratios)
 
     def save_image(self):
