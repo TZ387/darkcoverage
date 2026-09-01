@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import QLabel
-from PySide6.QtGui import QPainter, QPen
+from PySide6.QtGui import QPainter, QPen, QPixmap, QImage
 from PySide6.QtCore import Qt
 
 
@@ -8,10 +8,36 @@ class ImageLabel(QLabel):
         super().__init__(parent)
         self.grid_size = (3, 3)  # Default grid size
         self.setMinimumSize(400, 400)
+        self.original_pixmap = None
 
     def setGridSize(self, n, m):
         self.grid_size = (n, m)
         self.update()
+
+    def setImage(self, pil_image):
+        """Set the source PIL image to display, scaled to fit the label."""
+        if pil_image.mode != "RGB":
+            pil_image = pil_image.convert("RGB")
+
+        qimage = QImage(
+            pil_image.tobytes(),
+            pil_image.width,
+            pil_image.height,
+            pil_image.width * 3,  # bytes per line
+            QImage.Format_RGB888,
+        )
+        self.original_pixmap = QPixmap.fromImage(qimage)
+        self.rescale()
+
+    def rescale(self):
+        """Rescale the cached source pixmap to fit the label's current size."""
+        if self.original_pixmap:
+            scaled_pixmap = self.original_pixmap.scaled(
+                self.size(),
+                Qt.KeepAspectRatio,
+                Qt.FastTransformation,  # Faster than SmoothTransformation
+            )
+            self.setPixmap(scaled_pixmap)
 
     def paintEvent(self, event):
         super().paintEvent(event)

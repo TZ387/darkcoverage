@@ -10,7 +10,6 @@ from PySide6.QtWidgets import (
     QSizePolicy,
     QMessageBox,
 )
-from PySide6.QtGui import QPixmap, QImage
 from PySide6.QtCore import Qt
 from PIL import Image
 
@@ -22,8 +21,7 @@ class ImageThresholdApp(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("DarkCoverage - Image Threshold Adjustment")
-        self.original_pixmap = None  # Store the original pixmap
-        self._image_version = 0  # Bumped by _set_current_image; drives the QImage cache
+        self._image_version = 0  # Bumped by _set_current_image; drives the pixmap cache
 
         # Set a default size for the main window
         self.resize(400, 500)  # Slightly larger to accommodate controls
@@ -162,40 +160,15 @@ class ImageThresholdApp(QWidget):
 
     def scale_image(self):
         if hasattr(self, "current_image") and self.current_image:
-            # Only recreate the QImage if necessary
-            if not hasattr(self, "qimage") or self._last_image_version != (
+            # Only rebuild the pixmap from current_image if it actually
+            # changed; otherwise just rescale the cached one (e.g. on resize).
+            if not hasattr(self, "_last_image_version") or self._last_image_version != (
                 self._image_version
             ):
-                # Convert image format if needed
-                if self.current_image.mode != "RGB":
-                    img = self.current_image.convert("RGB")
-                else:
-                    img = self.current_image
-
-                # Store the version this QImage/pixmap were built from
                 self._last_image_version = self._image_version
-
-                # Create QImage directly from PIL image data
-                self.qimage = QImage(
-                    img.tobytes(),
-                    img.width,
-                    img.height,
-                    img.width * 3,  # bytes per line
-                    QImage.Format_RGB888,
-                )
-
-                # Cache the original pixmap
-                self.original_pixmap = QPixmap.fromImage(self.qimage)
-
-            # Scale the pixmap - Use FastTransformation for speed
-            # or SmoothTransformation for quality (choose based on your needs)
-            scaled_pixmap = self.original_pixmap.scaled(
-                self.image_label.size(),
-                Qt.KeepAspectRatio,
-                Qt.FastTransformation,  # Faster than SmoothTransformation
-            )
-
-            self.image_label.setPixmap(scaled_pixmap)
+                self.image_label.setImage(self.current_image)
+            else:
+                self.image_label.rescale()
 
     def load_image(self):
         file_name, _ = QFileDialog.getOpenFileName(

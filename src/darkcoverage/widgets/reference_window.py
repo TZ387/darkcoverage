@@ -1,5 +1,4 @@
 from PySide6.QtWidgets import QWidget, QVBoxLayout
-from PySide6.QtGui import QPixmap, QImage
 from PySide6.QtCore import Qt
 from .image_label import ImageLabel
 
@@ -10,7 +9,6 @@ class ReferenceWindow(QWidget):
             parent, Qt.Window
         )  # Use Qt.Window flag to create an independent window
         self.setWindowTitle("Original Image Reference")
-        self.original_pixmap = None  # Store the original pixmap
 
         # Set a default size for the reference window
         self.resize(400, 400)
@@ -25,35 +23,10 @@ class ReferenceWindow(QWidget):
         self.setLayout(layout)
 
     def update_image(self, image, grid_size):
-        # Convert PIL Image to QImage maintaining color
-        qimage = QImage(
-            image.tobytes("raw", "RGB"),
-            image.width,
-            image.height,
-            image.width * 3,  # bytes per line
-            QImage.Format_RGB888,
-        )
-
-        # Store the original pixmap
-        self.original_pixmap = QPixmap.fromImage(qimage)
-
-        # Scale the pixmap to fit the current label size while maintaining aspect ratio
-        self.scale_image()
-
-        # Set grid size
+        self.image_label.setImage(image)
         self.image_label.setGridSize(*grid_size)
 
     def resizeEvent(self, event):
         super().resizeEvent(event)
         # Rescale the image when the window is resized
-        self.scale_image()
-
-    def scale_image(self):
-        if self.original_pixmap:
-            # Scale the pixmap using FastTransformation for better performance
-            scaled_pixmap = self.original_pixmap.scaled(
-                self.image_label.size(),
-                Qt.KeepAspectRatio,
-                Qt.FastTransformation,  # Much faster than SmoothTransformation
-            )
-            self.image_label.setPixmap(scaled_pixmap)
+        self.image_label.rescale()
