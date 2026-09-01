@@ -210,4 +210,11 @@ class ImageThresholdApp(QWidget):
                 self, "Save Image", "", "Images (*.png *.jpg *.jpeg)"
             )
             if file_name:
-                self.current_image.save(file_name)
+                try:
+                    self.current_image.save(file_name)
+                except (OSError, ValueError) as e:
+                    QMessageBox.warning(
+                        self,
+                        "Failed to Save Image",
+                        f"Could not save '{file_name}':\n{e}",
+                    )
