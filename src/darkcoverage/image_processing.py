@@ -69,7 +69,11 @@ def process_image(original_image, threshold_values, grid_size, color_dark_parts=
                 mask = sub_img >= threshold
 
             colored_pixels = np.sum(mask)
-            colored_ratios[i, j] = (colored_pixels / cell_pixels) * 100
+            # cell_pixels is 0 when the grid has more rows/columns than the
+            # image has pixels in that dimension; leave the ratio at 0
+            # rather than dividing by zero.
+            if cell_pixels > 0:
+                colored_ratios[i, j] = (colored_pixels / cell_pixels) * 100
             total_colored_pixels += colored_pixels
 
             output_region = output_array[start_y:end_y, start_x:end_x]

@@ -122,3 +122,18 @@ def test_total_result_is_weighted_by_pixel_count_not_averaged_ratios():
     assert colored_ratios[0, 0] == pytest.approx(100.0)
     assert colored_ratios[0, 1] == pytest.approx(0.0)
     assert total_result == pytest.approx(60.0)
+
+
+def test_grid_larger_than_image_leaves_empty_cells_at_zero_not_nan():
+    # 2x2 image with a 3x3 grid: the last grid row/column has no pixels to
+    # cover, so those cells' 0/0 ratio must not surface as NaN.
+    image = make_gray_image([[0, 0], [0, 0]])
+
+    _, colored_ratios, total_result = process_image(
+        image, threshold_values=[128] * 9, grid_size=(3, 3), color_dark_parts=True
+    )
+
+    assert not np.isnan(colored_ratios).any()
+    assert colored_ratios[2, 2] == pytest.approx(0.0)  # empty cell
+    assert colored_ratios[0, 0] == pytest.approx(100.0)  # the one real pixel cell
+    assert total_result == pytest.approx(100.0)  # all 4 actual pixels are dark
