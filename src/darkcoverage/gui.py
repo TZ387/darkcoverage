@@ -183,6 +183,10 @@ class ImageThresholdApp(QWidget):
         if hasattr(self, "original_image"):
             self._set_current_image(self.original_image.copy())
             self.scale_image()
+            # Plain grayscale has nothing colored, so the coverage numbers
+            # should reflect that rather than the last-processed values.
+            self.total_result_label.setText("Total Result: 0.0%")
+            self.sliders_window.reset_ratios()
 
     def process_image(self):
         if not hasattr(self, "original_image"):

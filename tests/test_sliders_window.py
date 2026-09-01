@@ -58,6 +58,19 @@ def test_update_dark_ratios_maps_2d_ratios_to_labels_in_row_major_order(sliders_
     ]
 
 
+def test_reset_ratios_clears_every_label_regardless_of_grid_shape(sliders_window):
+    sliders_window.n_input.setValue(2)
+    sliders_window.m_input.setValue(3)
+    sliders_window.update_dark_ratios(
+        np.array([[10.0, 20.0, 30.0], [40.0, 50.0, 60.0]])
+    )
+
+    sliders_window.reset_ratios()
+
+    texts = [label.text() for label in sliders_window.ratio_labels]
+    assert texts == ["Colored: 0.0%"] * 6
+
+
 def test_ratio_labels_stay_correctly_mapped_after_a_grid_resize(sliders_window):
     # Populate at the default 3x3 grid first, then resize to a different,
     # non-square shape and confirm the mapping realigns rather than reusing

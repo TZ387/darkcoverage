@@ -116,3 +116,7 @@ class SlidersWindow(QWidget):
             row = i // self.m_input.value()
             col = i % self.m_input.value()
             label.setText(f"Colored: {ratios[row, col]:.1f}%")
+
+    def reset_ratios(self):
+        for label in self.ratio_labels:
+            label.setText("Colored: 0.0%")
