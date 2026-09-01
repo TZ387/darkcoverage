@@ -14,14 +14,17 @@ Qt widgets, plus a pure image-processing function.
   loading/saving, coordinating the other two windows, triggering
   reprocessing.
 - `src/darkcoverage/image_processing.py` — `process_image(...)`, a pure
-  NumPy/Pillow function with no Qt dependency. This is the only part of
-  the codebase that's easily unit-testable in isolation.
+  NumPy/Pillow function with no Qt dependency. This is the easiest part of
+  the codebase to unit-test in isolation.
 - `src/darkcoverage/widgets/` — `ImageLabel` (custom `QLabel` that paints
   the threshold grid overlay), `SlidersWindow`, `ReferenceWindow`.
-- `tests/` — unit tests for `image_processing.py` (pytest, no Qt
-  dependency). Nothing under `gui.py` or `widgets/` is covered by
-  automated tests yet — see "Testing GUI changes without a display"
-  below for how to verify those manually.
+- `tests/` — unit tests for `image_processing.py` (no Qt dependency) and
+  for `SlidersWindow`'s grid-resize/threshold-collection logic (needs a
+  headless Qt app; `conftest.py` provides a session-scoped `qapp` fixture
+  for that — see its docstring). `gui.py`, `ImageLabel`, and
+  `ReferenceWindow` are still not covered by automated tests — see
+  "Testing GUI changes without a display" below for how to verify those
+  manually.
 
 ## Environment / commands
 
