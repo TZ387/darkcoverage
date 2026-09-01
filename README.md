@@ -38,26 +38,20 @@ python -m darkcoverage.main
 
 ### With uv
 
-**Installation:**
-
 First, install uv if you haven't already (see uv docs for more information)
 
-Then install DarkCoverage:
+**Installation:**
 ```bash
 uv add darkcoverage
 ```
 
-Or install globally with uvx:
-```bash
-uvx darkcoverage
-```
-
 **Usage:**
 ```bash
-# If installed with uv add
 uv run darkcoverage
+```
 
-# If installed with uvx
+**Or run it without installing:**
+```bash
 uvx darkcoverage
 ```
 
@@ -136,7 +130,9 @@ DarkCoverage/
 │           ├── reference_window.py
 │           └── sliders_window.py
 ├── tests/
-│   └── test_image_processing.py
+│   ├── conftest.py
+│   ├── test_image_processing.py
+│   └── test_sliders_window.py
 ├── .gitignore
 ├── AGENTS.md
 ├── CLAUDE.md -> AGENTS.md
@@ -150,7 +146,7 @@ DarkCoverage/
 
 ## Requirements
 
-- Python 3.8+
+- Python 3.10+
 - PySide6
 - Pillow
 - NumPy
