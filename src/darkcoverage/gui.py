@@ -23,6 +23,7 @@ class ImageThresholdApp(QWidget):
         super().__init__()
         self.setWindowTitle("DarkCoverage - Image Threshold Adjustment")
         self.original_pixmap = None  # Store the original pixmap
+        self._image_version = 0  # Bumped by _set_current_image; drives the QImage cache
 
         # Set a default size for the main window
         self.resize(400, 500)  # Slightly larger to accommodate controls
@@ -153,11 +154,17 @@ class ImageThresholdApp(QWidget):
         # Rescale the image when the window is resized
         self.scale_image()
 
+    def _set_current_image(self, image):
+        # Sole place current_image is reassigned, so the version counter
+        # can't be forgotten at a call site.
+        self.current_image = image
+        self._image_version += 1
+
     def scale_image(self):
         if hasattr(self, "current_image") and self.current_image:
             # Only recreate the QImage if necessary
-            if not hasattr(self, "qimage") or self._last_image_id != id(
-                self.current_image
+            if not hasattr(self, "qimage") or self._last_image_version != (
+                self._image_version
             ):
                 # Convert image format if needed
                 if self.current_image.mode != "RGB":
@@ -165,8 +172,8 @@ class ImageThresholdApp(QWidget):
                 else:
                     img = self.current_image
 
-                # Store image id to detect changes
-                self._last_image_id = id(self.current_image)
+                # Store the version this QImage/pixmap were built from
+                self._last_image_version = self._image_version
 
                 # Create QImage directly from PIL image data
                 self.qimage = QImage(
@@ -207,7 +214,7 @@ class ImageThresholdApp(QWidget):
             self.original_image = original_color_image.convert(
                 "L"
             )  # Store grayscale for processing
-            self.current_image = self.original_image.copy()  # Working copy
+            self._set_current_image(self.original_image.copy())  # Working copy
 
             # Update the image display
             self.scale_image()
@@ -226,7 +233,7 @@ class ImageThresholdApp(QWidget):
 
     def reset_image(self):
         if hasattr(self, "original_image"):
-            self.current_image = self.original_image.copy()
+            self._set_current_image(self.original_image.copy())
             self.scale_image()
 
     def process_image(self):
@@ -243,7 +250,7 @@ class ImageThresholdApp(QWidget):
         # Update total result
         self.total_result_label.setText(f"Total Result: {total_result:.1f}%")
 
-        self.current_image = processed_img
+        self._set_current_image(processed_img)
         self.scale_image()
         self.sliders_window.update_dark_ratios(colored_ratios)
 
