@@ -8,6 +8,7 @@ from PySide6.QtWidgets import (
     QRadioButton,
     QButtonGroup,
     QSizePolicy,
+    QMessageBox,
 )
 from PySide6.QtGui import QPixmap, QImage
 from PySide6.QtCore import Qt
@@ -194,7 +195,15 @@ class ImageThresholdApp(QWidget):
             self, "Open Image", "", "Images (*.png *.jpg *.jpeg)"
         )
         if file_name:
-            original_color_image = Image.open(file_name)  # Keep original color image
+            try:
+                original_color_image = Image.open(file_name)  # Keep original color image
+                original_color_image.load()  # Force read now so bad files fail here
+            except (OSError, ValueError) as e:
+                QMessageBox.warning(
+                    self, "Failed to Load Image", f"Could not open '{file_name}':\n{e}"
+                )
+                return
+
             self.original_image = original_color_image.convert(
                 "L"
             )  # Store grayscale for processing
