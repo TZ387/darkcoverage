@@ -68,7 +68,6 @@ class ImageThresholdApp(QWidget):
         color_mode_layout.addWidget(self.light_parts_radio)
 
         self.dark_parts_radio.toggled.connect(self.process_image)
-        self.light_parts_radio.toggled.connect(self.process_image)
 
         radio_widget = QWidget()
         radio_widget.setLayout(color_mode_layout)
