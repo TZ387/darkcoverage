@@ -131,6 +131,13 @@ class ImageThresholdApp(QWidget):
         super().resizeEvent(event)
         self.scale_image()
 
+    def closeEvent(self, event):
+        # sliders_window and reference_window are independent top-level
+        # windows, so closing this one wouldn't otherwise close them too.
+        self.sliders_window.close()
+        self.reference_window.close()
+        super().closeEvent(event)
+
     def _set_current_image(self, image):
         # Sole place current_image is reassigned, so the version counter
         # can't be forgotten at a call site.
