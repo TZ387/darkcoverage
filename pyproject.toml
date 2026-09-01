@@ -7,7 +7,7 @@ name = "darkcoverage"
 version = "0.2.3"
 description = "Image threshold analysis tool for measuring coverage"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 dependencies = [
     "numpy>=1.22.0",
     "pillow>=9.3.0",
