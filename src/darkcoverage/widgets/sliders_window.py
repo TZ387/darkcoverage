@@ -24,7 +24,6 @@ class SlidersWindow(QWidget):
     def init_ui(self):
         layout = QVBoxLayout()
 
-        # Grid size inputs
         control_layout = QGridLayout()
         self.n_input = QSpinBox()
         self.n_input.setRange(1, 10)
@@ -42,7 +41,6 @@ class SlidersWindow(QWidget):
 
         layout.addLayout(control_layout)
 
-        # Container for sliders
         self.sliders_container = QWidget()
         self.sliders_layout = QVBoxLayout()
         self.sliders_container.setLayout(self.sliders_layout)
@@ -73,14 +71,12 @@ class SlidersWindow(QWidget):
             for j in range(m):
                 slider_layout = QVBoxLayout()
 
-                # Threshold slider and label
                 slider_label = QLabel(f"Threshold [{i + 1}, {j + 1}]: 160")
                 slider = QSlider(Qt.Horizontal)
                 slider.setRange(0, 255)
                 slider.setValue(160)
                 slider.setTickInterval(5)
 
-                # Colored ratio label
                 ratio_label = QLabel("Colored: 0%")
                 ratio_label.setAlignment(Qt.AlignCenter)
                 self.ratio_labels.append(ratio_label)
@@ -101,7 +97,8 @@ class SlidersWindow(QWidget):
 
             self.sliders_layout.addLayout(row_layout)
 
-        # Emit initial values
+        # create_sliders() replaces the sliders wholesale, so push their
+        # (default) values out immediately instead of waiting for a drag.
         self.on_slider_change()
 
     def update_grid_size(self):

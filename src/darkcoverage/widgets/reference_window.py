@@ -9,8 +9,6 @@ class ReferenceWindow(QWidget):
             parent, Qt.Window
         )  # Use Qt.Window flag to create an independent window
         self.setWindowTitle("Original Image Reference")
-
-        # Set a default size for the reference window
         self.resize(400, 400)
 
         self.init_ui()
@@ -28,5 +26,4 @@ class ReferenceWindow(QWidget):
 
     def resizeEvent(self, event):
         super().resizeEvent(event)
-        # Rescale the image when the window is resized
         self.image_label.rescale()

@@ -6,7 +6,7 @@ from PySide6.QtCore import Qt
 class ImageLabel(QLabel):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.grid_size = (3, 3)  # Default grid size
+        self.grid_size = (3, 3)
         self.setMinimumSize(400, 400)
         self.original_pixmap = None
 
@@ -44,25 +44,21 @@ class ImageLabel(QLabel):
         if self.pixmap():
             painter = QPainter(self)
             pen = QPen(Qt.green)
-            pen.setWidth(2)  # Increase pen thickness
+            pen.setWidth(2)
             painter.setPen(pen)
 
-            # Get the actual displayed image size
             pixmap_rect = self.pixmap().rect()
 
-            # Calculate the offset to center the image
             x_offset = (self.width() - pixmap_rect.width()) // 2
             y_offset = (self.height() - pixmap_rect.height()) // 2
 
             width, height = pixmap_rect.width(), pixmap_rect.height()
 
-            # Calculate base cell dimensions and remainders
             base_cell_w = width // self.grid_size[1]
             base_cell_h = height // self.grid_size[0]
             rem_w = width % self.grid_size[1]
             rem_h = height % self.grid_size[0]
 
-            # Draw vertical lines
             x_pos = 0
             for i in range(1, self.grid_size[1]):
                 # Add extra pixel for columns that get the remainder
@@ -72,7 +68,6 @@ class ImageLabel(QLabel):
                     scaled_x, y_offset, scaled_x, y_offset + pixmap_rect.height()
                 )
 
-            # Draw horizontal lines
             y_pos = 0
             for i in range(1, self.grid_size[0]):
                 # Add extra pixel for rows that get the remainder

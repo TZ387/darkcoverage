@@ -23,23 +23,19 @@ class ImageThresholdApp(QWidget):
         self.setWindowTitle("DarkCoverage - Image Threshold Adjustment")
         self._image_version = 0  # Bumped by _set_current_image; drives the pixmap cache
 
-        # Set a default size for the main window
         self.resize(400, 500)  # Slightly larger to accommodate controls
 
-        # Create windows
         self.sliders_window = SlidersWindow()
         self.reference_window = ReferenceWindow()
         self.sliders_window.thresholds_changed.connect(self.on_thresholds_changed)
 
-        # Position the windows smartly but keep original sizes
         base_x, base_y = 100, 100
-        self.move(base_x, base_y)  # Main window position
+        self.move(base_x, base_y)
 
-        # Position slider window to the right of main window
+        # To the right of the main window
         self.sliders_window.move(base_x + 450, base_y)
         self.sliders_window.show()
 
-        # Initialize threshold_values with default values
         n, m = self.sliders_window.get_grid_size()
         self.threshold_values = [160] * (n * m)
 
@@ -48,26 +44,22 @@ class ImageThresholdApp(QWidget):
     def init_ui(self):
         layout = QVBoxLayout()
 
-        # Image display using custom ImageLabel
         self.image_label = ImageLabel()
         self.image_label.setAlignment(Qt.AlignCenter)
         self.image_label.setText("Load an image to process")
-
-        # Set size policy to expand both horizontally and vertically
         self.image_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 
         layout.addWidget(self.image_label)
 
-        # Color mode selection - compact layout
         color_mode_layout = QHBoxLayout()
-        color_mode_layout.setContentsMargins(0, 0, 0, 0)  # Remove margins
-        color_mode_layout.setSpacing(10)  # Reduce spacing between radio buttons
+        color_mode_layout.setContentsMargins(0, 0, 0, 0)
+        color_mode_layout.setSpacing(10)
 
         self.color_mode_group = QButtonGroup()
 
         self.dark_parts_radio = QRadioButton("Color Dark Parts")
         self.light_parts_radio = QRadioButton("Color Light Parts")
-        self.dark_parts_radio.setChecked(True)  # Default selection
+        self.dark_parts_radio.setChecked(True)
 
         self.color_mode_group.addButton(self.dark_parts_radio)
         self.color_mode_group.addButton(self.light_parts_radio)
@@ -75,81 +67,69 @@ class ImageThresholdApp(QWidget):
         color_mode_layout.addWidget(self.dark_parts_radio)
         color_mode_layout.addWidget(self.light_parts_radio)
 
-        # Connect radio buttons to process image
         self.dark_parts_radio.toggled.connect(self.process_image)
         self.light_parts_radio.toggled.connect(self.process_image)
 
-        # Set fixed size policy for the radio buttons layout with minimal margins
         radio_widget = QWidget()
         radio_widget.setLayout(color_mode_layout)
         radio_widget.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
-        radio_widget.setContentsMargins(0, 0, 0, 0)  # Remove margins around the widget
+        radio_widget.setContentsMargins(0, 0, 0, 0)
 
-        # Add the radio buttons with minimal spacing
         layout.addWidget(radio_widget)
-        layout.setSpacing(6)  # Reduce spacing between layout elements
+        layout.setSpacing(6)
 
-        # Buttons
         button_layout = QHBoxLayout()
-        button_layout.setContentsMargins(0, 0, 0, 0)  # Remove margins
+        button_layout.setContentsMargins(0, 0, 0, 0)
 
-        # Load image button
         self.load_button = QPushButton("Load Image")
         self.load_button.clicked.connect(self.load_image)
         button_layout.addWidget(self.load_button)
 
-        # Save button
         self.save_button = QPushButton("Save Image")
         self.save_button.clicked.connect(self.save_image)
         button_layout.addWidget(self.save_button)
 
-        # Reset button
         self.reset_button = QPushButton("Reset Image")
         self.reset_button.clicked.connect(self.reset_image)
         button_layout.addWidget(self.reset_button)
 
-        # Set fixed size policy for the button layout with minimal margins
         button_widget = QWidget()
         button_widget.setLayout(button_layout)
         button_widget.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
-        button_widget.setContentsMargins(0, 0, 0, 0)  # Remove margins around the widget
+        button_widget.setContentsMargins(0, 0, 0, 0)
 
         layout.addWidget(button_widget)
 
-        # Add total result label with fixed size policy
         self.total_result_label = QLabel("Total Result: 0%")
         self.total_result_label.setAlignment(Qt.AlignCenter)
         font = self.total_result_label.font()
-        font.setPointSize(12)  # Make the font a bit larger
-        font.setBold(True)  # Make it bold
+        font.setPointSize(12)
+        font.setBold(True)
         self.total_result_label.setFont(font)
 
-        # Set a fixed size policy for the label
         self.total_result_label.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
-        self.total_result_label.setContentsMargins(0, 0, 0, 0)  # Remove margins
+        self.total_result_label.setContentsMargins(0, 0, 0, 0)
 
         layout.addWidget(self.total_result_label)
 
-        # Reduce margins around the main layout to make everything more compact
-        layout.setContentsMargins(9, 9, 9, 9)  # Slightly smaller than default
+        layout.setContentsMargins(9, 9, 9, 9)
 
-        # Set layout stretch factors to make image_label take all extra space
+        # Qt stretch factor: gives image_label the extra space on resize
         layout.setStretchFactor(self.image_label, 10)
 
         self.setLayout(layout)
 
     def on_thresholds_changed(self, values):
         self.threshold_values = values
-        # Update grid lines when grid size changes
+        # thresholds_changed also fires on grid-size changes, so keep grid lines in sync
         n, m = self.sliders_window.get_grid_size()
         self.image_label.setGridSize(n, m)
         if hasattr(self, "original_image"):
             self.reference_window.image_label.setGridSize(n, m)
-            self.process_image()  # Automatically process image when thresholds change
+            self.process_image()
 
     def resizeEvent(self, event):
         super().resizeEvent(event)
-        # Rescale the image when the window is resized
         self.scale_image()
 
     def _set_current_image(self, image):
@@ -176,7 +156,7 @@ class ImageThresholdApp(QWidget):
         )
         if file_name:
             try:
-                original_color_image = Image.open(file_name)  # Keep original color image
+                original_color_image = Image.open(file_name)
                 original_color_image.load()  # Force read now so bad files fail here
             except (OSError, ValueError) as e:
                 QMessageBox.warning(
@@ -184,24 +164,19 @@ class ImageThresholdApp(QWidget):
                 )
                 return
 
-            self.original_image = original_color_image.convert(
-                "L"
-            )  # Store grayscale for processing
-            self._set_current_image(self.original_image.copy())  # Working copy
+            # Thresholding works on luminance, so keep a grayscale copy for processing
+            self.original_image = original_color_image.convert("L")
+            self._set_current_image(self.original_image.copy())
 
-            # Update the image display
             self.scale_image()
 
-            # Update reference window with original color image
             grid_size = self.sliders_window.get_grid_size()
             self.reference_window.update_image(original_color_image, grid_size)
 
-            # Position reference window below the main window
             base_x, base_y = self.pos().x(), self.pos().y()
-            self.reference_window.move(base_x + 850, base_y)  # Position to the right
+            self.reference_window.move(base_x + 850, base_y)  # To the right
             self.reference_window.show()
 
-            # Process image immediately after loading
             self.process_image()
 
     def reset_image(self):
@@ -220,7 +195,6 @@ class ImageThresholdApp(QWidget):
             self.original_image, self.threshold_values, (n, m), color_dark_parts
         )
 
-        # Update total result
         self.total_result_label.setText(f"Total Result: {total_result:.1f}%")
 
         self._set_current_image(processed_img)
