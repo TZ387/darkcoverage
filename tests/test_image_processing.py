@@ -137,3 +137,17 @@ def test_grid_larger_than_image_leaves_empty_cells_at_zero_not_nan():
     assert colored_ratios[2, 2] == pytest.approx(0.0)  # empty cell
     assert colored_ratios[0, 0] == pytest.approx(100.0)  # the one real pixel cell
     assert total_result == pytest.approx(100.0)  # all 4 actual pixels are dark
+
+
+def test_zero_size_image_leaves_total_result_at_zero_not_dividing_by_zero():
+    # A 0x0 image has no pixels anywhere, so total_pixels is 0 too; that
+    # must not raise ZeroDivisionError.
+    image = Image.new("L", (0, 0))
+
+    processed, colored_ratios, total_result = process_image(
+        image, threshold_values=[128], grid_size=(1, 1), color_dark_parts=True
+    )
+
+    assert processed.size == (0, 0)
+    assert colored_ratios[0, 0] == pytest.approx(0.0)
+    assert total_result == pytest.approx(0.0)

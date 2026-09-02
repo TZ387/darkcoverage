@@ -83,7 +83,9 @@ def process_image(original_image, threshold_values, grid_size, color_dark_parts=
 
     # Pixel-weighted, not a per-cell average — a mean of ratios would skew
     # toward small cells and misrepresent overall coverage.
-    total_result = (total_colored_pixels / total_pixels) * 100
+    total_result = 0.0
+    if total_pixels > 0:
+        total_result = (total_colored_pixels / total_pixels) * 100
 
     processed_img = Image.fromarray(output_array)
 
