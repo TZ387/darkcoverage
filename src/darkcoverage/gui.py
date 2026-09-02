@@ -70,7 +70,7 @@ class ImageThresholdApp(QWidget):
         color_mode_layout.addWidget(self.dark_parts_radio)
         color_mode_layout.addWidget(self.light_parts_radio)
 
-        self.dark_parts_radio.toggled.connect(self.process_image)
+        self.dark_parts_radio.toggled.connect(self.refresh_processed_image)
 
         radio_widget = QWidget()
         radio_widget.setLayout(color_mode_layout)
@@ -128,7 +128,7 @@ class ImageThresholdApp(QWidget):
         self.image_label.setGridSize(n, m)
         if self.original_image is not None:
             self.reference_window.image_label.setGridSize(n, m)
-            self.process_image()
+            self.refresh_processed_image()
 
     def resizeEvent(self, event):
         super().resizeEvent(event)
@@ -186,7 +186,7 @@ class ImageThresholdApp(QWidget):
             self.reference_window.move(base_x + 850, base_y)  # To the right
             self.reference_window.show()
 
-            self.process_image()
+            self.refresh_processed_image()
 
     def reset_image(self):
         if self.original_image is not None:
@@ -197,7 +197,7 @@ class ImageThresholdApp(QWidget):
             self.total_result_label.setText("Total Result: 0.0%")
             self.sliders_window.reset_ratios()
 
-    def process_image(self):
+    def refresh_processed_image(self):
         if self.original_image is None:
             return
 

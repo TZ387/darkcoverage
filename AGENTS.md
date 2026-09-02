@@ -65,7 +65,7 @@ img = Image.open("Example.jpg")
 window.original_image = img.convert("L")
 window.current_image = window.original_image.copy()
 window.scale_image()
-window.process_image()
+window.refresh_processed_image()
 print(window.total_result_label.text())
 EOF
 ```
