@@ -9,6 +9,8 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtCore import Qt, Signal
 
+DEFAULT_THRESHOLD = 160
+
 
 class SlidersWindow(QWidget):
     thresholds_changed = Signal(list)
@@ -71,10 +73,12 @@ class SlidersWindow(QWidget):
             for j in range(m):
                 slider_layout = QVBoxLayout()
 
-                slider_label = QLabel(f"Threshold [{i + 1}, {j + 1}]: 160")
+                slider_label = QLabel(
+                    f"Threshold [{i + 1}, {j + 1}]: {DEFAULT_THRESHOLD}"
+                )
                 slider = QSlider(Qt.Horizontal)
                 slider.setRange(0, 255)
-                slider.setValue(160)
+                slider.setValue(DEFAULT_THRESHOLD)
                 slider.setTickInterval(5)
 
                 ratio_label = QLabel("Colored: 0%")

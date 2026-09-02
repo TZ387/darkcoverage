@@ -14,6 +14,7 @@ from PySide6.QtCore import Qt
 from PIL import Image
 
 from .widgets import ImageLabel, ReferenceWindow, SlidersWindow
+from .widgets.sliders_window import DEFAULT_THRESHOLD
 from .image_processing import process_image
 
 
@@ -37,7 +38,7 @@ class ImageThresholdApp(QWidget):
         self.sliders_window.show()
 
         n, m = self.sliders_window.get_grid_size()
-        self.threshold_values = [160] * (n * m)
+        self.threshold_values = [DEFAULT_THRESHOLD] * (n * m)
 
         self.init_ui()
 
