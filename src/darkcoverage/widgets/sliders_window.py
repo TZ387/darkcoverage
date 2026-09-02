@@ -85,13 +85,14 @@ class SlidersWindow(QWidget):
                 ratio_label.setAlignment(Qt.AlignCenter)
                 self.ratio_labels.append(ratio_label)
 
-                def create_slider_callback(label, row, col):
-                    return lambda value: (
-                        label.setText(f"Threshold [{row + 1}, {col + 1}]: {value}"),
-                        self.on_slider_change(),
-                    )
+                def make_slider_changed(label, row, col):
+                    def on_slider_value_changed(value):
+                        label.setText(f"Threshold [{row + 1}, {col + 1}]: {value}")
+                        self.on_slider_change()
 
-                slider.valueChanged.connect(create_slider_callback(slider_label, i, j))
+                    return on_slider_value_changed
+
+                slider.valueChanged.connect(make_slider_changed(slider_label, i, j))
                 self.sliders.append(slider)
 
                 slider_layout.addWidget(slider_label)
