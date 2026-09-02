@@ -23,6 +23,7 @@ class ImageThresholdApp(QWidget):
         super().__init__()
         self.setWindowTitle("DarkCoverage - Image Threshold Adjustment")
         self._image_version = 0  # Bumped by _set_current_image; drives the pixmap cache
+        self._last_image_version = 0
         self.original_image = None
         self.current_image = None
 
@@ -151,9 +152,7 @@ class ImageThresholdApp(QWidget):
         if self.current_image is not None:
             # Only rebuild the pixmap from current_image if it actually
             # changed; otherwise just rescale the cached one (e.g. on resize).
-            if not hasattr(self, "_last_image_version") or self._last_image_version != (
-                self._image_version
-            ):
+            if self._last_image_version != self._image_version:
                 self._last_image_version = self._image_version
                 self.image_label.setImage(self.current_image)
             else:
