@@ -1,13 +1,13 @@
+from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import (
-    QWidget,
-    QVBoxLayout,
     QGridLayout,
     QHBoxLayout,
     QLabel,
     QSlider,
     QSpinBox,
+    QVBoxLayout,
+    QWidget,
 )
-from PySide6.QtCore import Qt, Signal
 
 DEFAULT_THRESHOLD = 160
 

@@ -31,16 +31,16 @@ Qt widgets, plus a pure image-processing function.
 This project uses `uv`.
 
 - Install deps: `uv sync` (this also installs the `dev` dependency
-  group, which currently just holds `pytest`)
+  group, which holds `pytest` and `ruff`)
 - Run the app: `uv run python -m darkcoverage.main`
 - Run tests: `uv run pytest`
 - Lint/format: `uv run ruff check .` / `uv run ruff format .`
-  (ruff is available but not currently pinned as a project dependency —
-  don't assume a specific version is guaranteed across machines)
 
-Tests run automatically on every push/PR via
-`.github/workflows/tests.yml` (GitHub Actions, `uv sync` + `uv run
-pytest` on `ubuntu-latest`). Keep new pure-logic code (i.e. anything
+Tests and lint run automatically on every push/PR via
+`.github/workflows/tests.yml` (GitHub Actions): a `lint` job runs
+`ruff check` and `ruff format --check` on `ubuntu-latest`, and a `test`
+job runs `uv run pytest` across `ubuntu-latest`, `windows-latest`, and
+`macos-latest`. Keep new pure-logic code (i.e. anything
 that doesn't need Qt) covered by tests in `tests/` so CI actually
 catches regressions — `process_image` in `image_processing.py` is the
 existing example to follow.

@@ -1,6 +1,6 @@
-from PySide6.QtWidgets import QLabel
-from PySide6.QtGui import QPainter, QPen, QPixmap, QImage
 from PySide6.QtCore import Qt
+from PySide6.QtGui import QImage, QPainter, QPen, QPixmap
+from PySide6.QtWidgets import QLabel
 
 
 class ImageLabel(QLabel):

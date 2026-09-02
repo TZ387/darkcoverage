@@ -1,21 +1,21 @@
-from PySide6.QtWidgets import (
-    QWidget,
-    QVBoxLayout,
-    QHBoxLayout,
-    QPushButton,
-    QFileDialog,
-    QLabel,
-    QRadioButton,
-    QButtonGroup,
-    QSizePolicy,
-    QMessageBox,
-)
-from PySide6.QtCore import Qt
 from PIL import Image
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import (
+    QButtonGroup,
+    QFileDialog,
+    QHBoxLayout,
+    QLabel,
+    QMessageBox,
+    QPushButton,
+    QRadioButton,
+    QSizePolicy,
+    QVBoxLayout,
+    QWidget,
+)
 
+from .image_processing import process_image
 from .widgets import ImageLabel, ReferenceWindow, SlidersWindow
 from .widgets.sliders_window import DEFAULT_THRESHOLD
-from .image_processing import process_image
 
 
 class ImageThresholdApp(QWidget):
