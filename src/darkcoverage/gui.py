@@ -23,6 +23,8 @@ class ImageThresholdApp(QWidget):
         super().__init__()
         self.setWindowTitle("DarkCoverage - Image Threshold Adjustment")
         self._image_version = 0  # Bumped by _set_current_image; drives the pixmap cache
+        self.original_image = None
+        self.current_image = None
 
         self.resize(400, 500)  # Slightly larger to accommodate controls
 
@@ -124,7 +126,7 @@ class ImageThresholdApp(QWidget):
         # thresholds_changed also fires on grid-size changes, so keep grid lines in sync
         n, m = self.sliders_window.get_grid_size()
         self.image_label.setGridSize(n, m)
-        if hasattr(self, "original_image"):
+        if self.original_image is not None:
             self.reference_window.image_label.setGridSize(n, m)
             self.process_image()
 
@@ -146,7 +148,7 @@ class ImageThresholdApp(QWidget):
         self._image_version += 1
 
     def scale_image(self):
-        if hasattr(self, "current_image") and self.current_image:
+        if self.current_image is not None:
             # Only rebuild the pixmap from current_image if it actually
             # changed; otherwise just rescale the cached one (e.g. on resize).
             if not hasattr(self, "_last_image_version") or self._last_image_version != (
@@ -187,7 +189,7 @@ class ImageThresholdApp(QWidget):
             self.process_image()
 
     def reset_image(self):
-        if hasattr(self, "original_image"):
+        if self.original_image is not None:
             self._set_current_image(self.original_image.copy())
             self.scale_image()
             # Plain grayscale has nothing colored, so the coverage numbers
@@ -196,7 +198,7 @@ class ImageThresholdApp(QWidget):
             self.sliders_window.reset_ratios()
 
     def process_image(self):
-        if not hasattr(self, "original_image"):
+        if self.original_image is None:
             return
 
         n, m = self.sliders_window.get_grid_size()
@@ -213,7 +215,7 @@ class ImageThresholdApp(QWidget):
         self.sliders_window.update_dark_ratios(colored_ratios)
 
     def save_image(self):
-        if hasattr(self, "current_image"):
+        if self.current_image is not None:
             file_name, _ = QFileDialog.getSaveFileName(
                 self, "Save Image", "", "Images (*.png *.jpg *.jpeg)"
             )
